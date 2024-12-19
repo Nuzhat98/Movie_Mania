@@ -1,13 +1,10 @@
 package com.moviemania.movieAPI.Service;
 
 import com.moviemania.movieAPI.Dto.MovieDto;
-import com.moviemania.movieAPI.Entities.Movie;
-import com.moviemania.movieAPI.MovieApiApplication;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public interface MovieService {
 
@@ -17,7 +14,7 @@ public interface MovieService {
 
     MovieDto updateMovie(Integer movieId,MovieDto movieDto,MultipartFile file)throws IOException;
 
-    void deleteMovie(Integer movieId);
+    String deleteMovie(Integer movieId) throws IOException;
 
     List<MovieDto> getAllMovies();
 }
