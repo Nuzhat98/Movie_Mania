@@ -3,8 +3,10 @@ package com.moviemania.movieAPI.Controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moviemania.movieAPI.Dto.MovieDto;
+import com.moviemania.movieAPI.Dto.MoviePageResponse;
 import com.moviemania.movieAPI.Exceptions.EmptyFileException;
 import com.moviemania.movieAPI.Service.MovieService;
+import com.moviemania.movieAPI.utils.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +58,21 @@ public class MovieController {
     public ResponseEntity<List<MovieDto>> getAllMovieHandler(){
         return ResponseEntity.ok(movieService.getAllMovies());
     }
+
+    @GetMapping("/allMoviesPage")
+    public ResponseEntity<MoviePageResponse> getMoviesWithPagination(@RequestParam(defaultValue = AppConstants.PAGE_NUMBER,required = false,name = "pageNumber") Integer pageNumber,
+                                                                     @RequestParam(defaultValue = AppConstants.PAGE_SIZE,required = false,name = "pageSize") Integer pageSize){
+    return ResponseEntity.ok(movieService.getAllMoviesWithPagination(pageNumber,pageSize));
+    }
+
+    @GetMapping("/allMoviesPageSort")
+    public ResponseEntity<MoviePageResponse> getMoviesWithPaginationAndSort(@RequestParam(defaultValue = AppConstants.PAGE_NUMBER,required = false,name = "pageNumber") Integer pageNumber,
+                                                                            @RequestParam(defaultValue = AppConstants.PAGE_SIZE,required = false,name = "pageSize") Integer pageSize,
+                                                                            @RequestParam(defaultValue = AppConstants.SORT_BY,required = false,name = "sortBy") String sortBy,
+                                                                            @RequestParam(defaultValue = AppConstants.SORT_BY,required = false,name = "dir") String dir){
+        return ResponseEntity.ok(movieService.getAllMoviesWithPaginationAndSorting(pageNumber,pageSize,sortBy,dir));
+    }
+
 
     private MovieDto convertToMovieDto(String movieDtoObj) throws JsonProcessingException {
         ObjectMapper objectMapper=new ObjectMapper();
